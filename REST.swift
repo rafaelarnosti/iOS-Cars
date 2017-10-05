@@ -161,6 +161,38 @@ class REST{
             }
             }.resume()
     }
+    static func deleteCar(_ car: Car,onComplete: @escaping (Bool) -> Void){
+        
+        let path = basePath + "/" + car.id!
+        
+        guard let url = URL(string: path) else {
+            onComplete(false)
+            return
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        
+        session.dataTask(with: request) { (data:Data?, response:URLResponse?, error:Error?) in
+            if error != nil{
+                print("Deu Ruim")
+                onComplete(false)
+            }else{
+                guard let response = response as? HTTPURLResponse else{
+                    onComplete(false)
+                    return
+                }
+                
+                if response.statusCode == 200{
+                    guard let _ = data else{
+                        onComplete(false)
+                        return
+                    }
+                    onComplete(true)
+                }
+            }
+            }.resume()
+    }
+
     
 }
 

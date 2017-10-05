@@ -57,6 +57,19 @@ class CarsTableViewController: UITableViewController {
         
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete{
+            let car = cars[indexPath.row]
+            REST.deleteCar(car, onComplete: { (success) in
+                if success{
+                    DispatchQueue.main.async {
+                        tableView.deleteRows(at: [indexPath], with: .fade)
+                    }
+                }
+            })
+        }
+    }
 
 }
 
