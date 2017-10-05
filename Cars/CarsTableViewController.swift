@@ -63,7 +63,11 @@ class CarsTableViewController: UITableViewController {
             let car = cars[indexPath.row]
             REST.deleteCar(car, onComplete: { (success) in
                 if success{
+                    
+                    self.cars.remove(at: indexPath.row)
+                    
                     DispatchQueue.main.async {
+                        
                         tableView.deleteRows(at: [indexPath], with: .fade)
                     }
                 }

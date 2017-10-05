@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class REST{
     static let basePath = "https://fiapcars.herokuapp.com/cars"
@@ -192,7 +193,25 @@ class REST{
             }
             }.resume()
     }
-
     
+    static func downloadImage(url:String,onComplete:@escaping (UIImage?) -> Void){
+        
+        guard let url = URL(string: url) else {
+            onComplete(nil)
+            return
+        }
+        session.downloadTask(with: url) {(imageURL: URL?, response: URLResponse?, error: Error?) in
+            if let response = response as? HTTPURLResponse, response.statusCode == 200, let imageURL =
+                imageURL{
+                let imageData = try! Data(contentsOf: imageURL)
+                let image = UIImage(data: imageData)
+                onComplete(image)
+            }else{
+                onComplete(nil)
+            }
+        
+    }.resume()
+
+    }
 }
 
