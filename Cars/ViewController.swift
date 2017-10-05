@@ -28,6 +28,10 @@ class ViewController: UIViewController {
             scGasType.selectedSegmentIndex = car.gasType.rawValue
             title = "Atualizando \(car.name)"
         }
+        
+        REST.downloadImage(url: "http://receitatodahora.com.br/wp-content/uploads/2015/11/trufas1.jpg") { (image:UIImage?) in
+            self.ivCars.image = image
+        }
     }
     
     @IBAction func saveCar(_ sender: UIButton) {
